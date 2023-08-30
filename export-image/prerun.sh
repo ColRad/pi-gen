@@ -10,8 +10,14 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	rm -rf "${ROOTFS_DIR}"
 	mkdir -p "${ROOTFS_DIR}"
 
-	BOOT_SIZE="$((256 * 1024 * 1024))"
-	ROOT_SIZE=$(du --apparent-size -s "${EXPORT_ROOTFS_DIR}" --exclude var/cache/apt/archives --exclude boot --block-size=1 | cut -f 1)
+	rm -rf "${MEDIAFS_DIR}"
+	mkdir -p "${MEDIAFS_DIR}"
+
+	BOOT_SIZE="$((64 * 1024 * 1024))"
+	ROOT_SIZE=$(du --apparent-size -s "${EXPORT_ROOTFS_DIR}" --exclude var/cache/apt/archives --exclude boot --exclude MEDIA --block-size=1 | cut -f 1)
+	MEDIA_SIZE="$((64 * 1024 * 1024))"
+
+	echo "ROOT_SIZE: ${ROOT_SIZE}"
 
 	# All partition sizes and starts will be aligned to this size
 	ALIGN="$((4 * 1024 * 1024))"
@@ -21,17 +27,21 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	# image.
 	ROOT_MARGIN="$(echo "($ROOT_SIZE * 0.2 + 200 * 1024 * 1024) / 1" | bc)"
 
+
 	BOOT_PART_START=$((ALIGN))
 	BOOT_PART_SIZE=$(((BOOT_SIZE + ALIGN - 1) / ALIGN * ALIGN))
 	ROOT_PART_START=$((BOOT_PART_START + BOOT_PART_SIZE))
 	ROOT_PART_SIZE=$(((ROOT_SIZE + ROOT_MARGIN + ALIGN  - 1) / ALIGN * ALIGN))
-	IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + ROOT_PART_SIZE))
+	MEDIA_PART_START=$((ROOT_PART_START + ROOT_PART_SIZE))
+	MEDIA_PART_SIZE=$(((MEDIA_SIZE + ALIGN  - 1) / ALIGN * ALIGN))
+	IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + ROOT_PART_SIZE + MEDIA_PART_SIZE))
 
 	truncate -s "${IMG_SIZE}" "${IMG_FILE}"
 
 	parted --script "${IMG_FILE}" mklabel msdos
 	parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${BOOT_PART_START}" "$((BOOT_PART_START + BOOT_PART_SIZE - 1))"
 	parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
+	parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${MEDIA_PART_START}" "$((MEDIA_PART_START + MEDIA_PART_SIZE - 1))"
 
 	echo "Creating loop device..."
 	cnt=0
@@ -48,6 +58,8 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 
 	BOOT_DEV="${LOOP_DEV}p1"
 	ROOT_DEV="${LOOP_DEV}p2"
+	MEDIA_DEV="${LOOP_DEV}p3"
+
 
 	ROOT_FEATURES="^huge_file"
 	for FEATURE in 64bit; do
@@ -57,11 +69,19 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	done
 	mkdosfs -n bootfs -F 32 -s 4 -v "$BOOT_DEV" > /dev/null
 	mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
+	mkdosfs -n TRACK8 -F 32 -s 4 -v "$MEDIA_DEV" > /dev/null
+
 
 	mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
 	mkdir -p "${ROOTFS_DIR}/boot"
+	mkdir -p "${ROOTFS_DIR}/MEDIA"
 	mount -v "$BOOT_DEV" "${ROOTFS_DIR}/boot" -t vfat
+	mount -v "$MEDIA_DEV" "${ROOTFS_DIR}/MEDIA" -t vfat
+
 
 	rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
 	rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/" "${ROOTFS_DIR}/boot/"
+	#rsync -rtx "${EXPORT_ROOTFS_DIR}/MEDIA/" "${ROOTFS_DIR}/MEDIA/"
+
+
 fi

@@ -128,6 +128,7 @@ EOF
 
 			mount -v -t ext4 $MAP_ROOT_DEV "${ROOTFS_DIR}"
 			mkdir -p "${ROOTFS_DIR}/boot"
+			mkdir -p "${ROOTFS_DIR}/MEDIA"
 			mount -v -t vfat $MAP_BOOT_DEV "${ROOTFS_DIR}/boot"
 			CURRENT_IMAGE=${WORK_DIR}/image-${STAGE}.qcow2
 			CURRENT_MOUNTPOINT=${ROOTFS_DIR}

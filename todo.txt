@@ -1,3 +1,5 @@
 replace dhcpd with static ip networking
 or manage to start dhcpcd service in backgrounbd https://unix.stackexchange.com/questions/556113/how-to-start-dhcpcd-in-background-on-boot
 https://wiki.archlinux.org/title/Dhcpcd#dhcpcd@.service_causes_slow_startup
+
+create 3rd partition for media&firmware fat32
