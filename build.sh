@@ -13,6 +13,9 @@ debconf-set-selections <<SELEOF
 $(cat "${i}-debconf")
 SELEOF
 EOF
+on_chroot << EOF
+apt-get clean
+EOF
 
 			log "End ${SUB_STAGE_DIR}/${i}-debconf"
 		fi
@@ -36,7 +39,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get -o Acquire::Retries=3 install -y $PACKAGES
+apt-get -o Acquire::Retries=3 install --no-install-recommends -y $PACKAGES
 EOF
 				if [ "${USE_QCOW2}" = "1" ]; then
 					on_chroot << EOF
@@ -98,6 +101,8 @@ run_stage(){
 
 	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
 	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
+	MEDIAFS_DIR="${STAGE_WORK_DIR}"/MEDIA
+
 
 	if [ "${USE_QCOW2}" = "1" ]; then
 		if [ ! -f SKIP ]; then
@@ -119,6 +124,9 @@ run_stage(){
 		if [ "${CLEAN}" = "1" ] && [ "${USE_QCOW2}" = "0" ] ; then
 			if [ -d "${ROOTFS_DIR}" ]; then
 				rm -rf "${ROOTFS_DIR}"
+			fi
+			if [ -d "${MEDIAFS_DIR}" ]; then
+				rm -rf "${MEDIAFS_DIR}"
 			fi
 		fi
 		if [ -x prerun.sh ]; then
@@ -145,6 +153,7 @@ run_stage(){
 	PREV_STAGE="${STAGE}"
 	PREV_STAGE_DIR="${STAGE_DIR}"
 	PREV_ROOTFS_DIR="${ROOTFS_DIR}"
+	PREV_MEDIAFS_DIR="${MEDIAFS_DIR}"
 	popd > /dev/null
 	log "End ${STAGE_DIR}"
 }
@@ -255,11 +264,15 @@ export PREV_STAGE
 export PREV_STAGE_DIR
 export ROOTFS_DIR
 export PREV_ROOTFS_DIR
+export MEDIAFS_DIR
+export PREV_MEDIAFS_DIR
 export IMG_SUFFIX
 export NOOBS_NAME
 export NOOBS_DESCRIPTION
 export EXPORT_DIR
 export EXPORT_ROOTFS_DIR
+export EXPORT_MEDIAFS_DIR
+
 
 export QUILT_PATCHES
 export QUILT_NO_DIFF_INDEX=1

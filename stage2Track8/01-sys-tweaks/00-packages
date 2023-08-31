@@ -1,0 +1,27 @@
+ssh less fbset sudo psmisc ncdu crda
+console-setup keyboard-configuration debconf-utils parted
+bash-completion
+avahi-daemon
+hardlink ca-certificates curl
+fake-hwclock nfs-common usbutils
+libraspberrypi-dev libraspberrypi-doc
+raspberrypi-sys-mods
+apt-listchanges
+usb-modeswitch
+libpam-chksshpwd
+rsync
+htop
+policykit-1
+ssh-import-id
+rng-tools
+ethtool
+pciutils
+rpi-eeprom
+raspinfo
+udisks2
+unzip zip
+file
+kms++-utils
+jackd1
+xserver-xorg-video-all xserver-xorg-input-all xserver-xorg-core xinit x11-xserver-utils unclutter
+
