@@ -23,13 +23,15 @@ until ensure_next_loopdev && LOOP_DEV="$(losetup --show --find --partscan "$IMG_
 done
 
 BOOT_DEV="${LOOP_DEV}p1"
-ROOT_DEV="${LOOP_DEV}p2"
+MEDIA_DEV="${LOOP_DEV}p2"
+ROOT_DEV="${LOOP_DEV}p3"
 
 mkdir -p "${STAGE_WORK_DIR}/rootfs"
 mkdir -p "${NOOBS_DIR}"
 
 mount "$ROOT_DEV" "${STAGE_WORK_DIR}/rootfs"
 mount "$BOOT_DEV" "${STAGE_WORK_DIR}/rootfs/boot"
+mount "$MEDIA_DEV" "${STAGE_WORK_DIR}/rootfs/media"
 
 ln -sv "/lib/systemd/system/apply_noobs_os_config.service" "$ROOTFS_DIR/etc/systemd/system/multi-user.target.wants/apply_noobs_os_config.service"
 

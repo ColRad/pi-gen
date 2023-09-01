@@ -104,7 +104,8 @@ fi
 
 export NBD_DEV="${NBD_DEV:-/dev/nbd1}"
 export MAP_BOOT_DEV=/dev/mapper/nbd1p1
-export MAP_ROOT_DEV=/dev/mapper/nbd1p2
+export MAP_MEDIA_DEV=/dev/mapper/nbd1p2
+export MAP_ROOT_DEV=/dev/mapper/nbd1p3
 source scripts/qcow2_handling
 
 if [ "${MOUNT}" = "1" ]; then

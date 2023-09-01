@@ -10,6 +10,15 @@
             "sha256sum": "BOOT_SHASUM"
         },
         {
+            "filesystem_type": "FAT",
+            "label": "media",
+            "mkfs_options": "-F 32 -s 4",
+            "partition_size_nominal": MEDIA_NOM,
+            "uncompressed_tarball_size": MEDIA_SIZE,
+            "want_maximised": false,
+            "sha256sum": "MEDIA_SHASUM"
+        },
+        {
             "filesystem_type": "ext4",
             "label": "root",
             "mkfs_options": "-O ^huge_file",

@@ -7,3 +7,8 @@ SKIP_IMAGES
 .pc
 *-pc
 apt-cacher-ng/
+
+stage1Track8
+stage2Track8
+track8Dsi
+track8Home
