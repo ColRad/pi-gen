@@ -24,8 +24,8 @@ init_nbd() {
 		if [ "$S" == "0" ] ; then
 			NBD_DEV=/dev/$(basename $x)
 			MAP_BOOT_DEV=/dev/mapper/$(basename $x)p1
-			MAP_MEDIA_DEV=/dev/mapper/$(basename $x)p2
-			MAP_ROOT_DEV=/dev/mapper/$(basename $x)p3
+			MAP_ROOT_DEV=/dev/mapper/$(basename $x)p2
+			MAP_MEDIA_DEV=/dev/mapper/$(basename $x)p3
 			break
 		fi
 	done

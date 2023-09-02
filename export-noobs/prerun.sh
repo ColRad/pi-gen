@@ -23,8 +23,8 @@ until ensure_next_loopdev && LOOP_DEV="$(losetup --show --find --partscan "$IMG_
 done
 
 BOOT_DEV="${LOOP_DEV}p1"
-MEDIA_DEV="${LOOP_DEV}p2"
-ROOT_DEV="${LOOP_DEV}p3"
+ROOT_DEV="${LOOP_DEV}p2"
+MEDIA_DEV="${LOOP_DEV}p3"
 
 mkdir -p "${STAGE_WORK_DIR}/rootfs"
 mkdir -p "${NOOBS_DIR}"
