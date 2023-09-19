@@ -1,12 +1,8 @@
 ssh less fbset sudo psmisc strace ed ncdu crda
 console-setup keyboard-configuration debconf-utils parted
-build-essential manpages-dev bash-completion gdb pkg-config
-python-is-python3
-python3-rpi.gpio v4l-utils
-python3-gpiozero
+manpages-dev bash-completion gdb pkg-config
+v4l-utils
 avahi-daemon
-lua5.1
-luajit
 hardlink ca-certificates curl
 fake-hwclock nfs-common usbutils
 libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
@@ -34,3 +30,4 @@ udisks2
 unzip zip p7zip-full
 file
 kms++-utils
+xserver-xorg xinit

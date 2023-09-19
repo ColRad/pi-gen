@@ -18,6 +18,12 @@ if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	chmod 0600 "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh/authorized_keys
 fi
 
+# Add the nvme Mountpoint
+install -d 777 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/media"
+
+# Add Config Files
+cp -r ../../track8Home/. "${ROOTFS_DIR}/home/${FIRST_USER_NAME}"
+
 if [ "${PUBKEY_ONLY_SSH}" = "1" ]; then
 	sed -i -Ee 's/^#?[[:blank:]]*PubkeyAuthentication[[:blank:]]*no[[:blank:]]*$/PubkeyAuthentication yes/
 s/^#?[[:blank:]]*PasswordAuthentication[[:blank:]]*yes[[:blank:]]*$/PasswordAuthentication no/' "${ROOTFS_DIR}"/etc/ssh/sshd_config
