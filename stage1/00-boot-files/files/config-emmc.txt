@@ -1,0 +1,3 @@
+kernel=zImageEmmc
+initramfs rootfsEmmc.cpio.zst
+cmdline=cmdline-emmc.txt

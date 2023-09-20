@@ -4,26 +4,18 @@ force_eeprom_read=0
 disable_splash=1
 dtoverlay=disable-bt
 boot_delay=0
-gpio=0=ip
-gpio=1=ip
-
-#enable_uart=1
-#uart_2ndstage=1
 disable_overscan=1
 dtoverlay=dwc2,dr_mode=peripheral
 gpu_mem=16
 otg_mode=0
+gpio=0=ip
+gpio=1=ip
 
-
-kernel=zImageNvme
-initramfs rootfsNvme.cpio.zst
-cmdline=cmdline-nvme.txt
+include config-nvme.txt
 
 [gpio1=1]
-kernel=zImageEmmc
-initramfs rootfsEmmc.cpio.zst
-cmdline=cmdline-emmc.txt
-[all]
+include config-emmc.txt
+[all]]
 
 
 [gpio0=0]
@@ -57,4 +49,4 @@ dtoverlay=rotary-encoder,pin_a=8,pin_b=25,relative_axis=1
 dtoverlay=rotary-encoder,pin_a=6,pin_b=5,relative_axis=1
 dtoverlay=rotary-encoder,pin_a=16,pin_b=12,relative_axis=1
 dtoverlay=rotary-encoder,pin_a=26,pin_b=13,relative_axis=1
-initramfs initrd.img-6.1.21-v8+-overlay
+initramfs initrd.img-6.1.21-v8+
