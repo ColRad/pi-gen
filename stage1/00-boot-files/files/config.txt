@@ -1,6 +1,10 @@
 [all]
 disable_poe_fan=1
 force_eeprom_read=0
+disable_splash=1
+dtoverlay=disable-bt
+boot_delay=0
+
 
 # expose nvme with usb gadget
 [gpio0=1]

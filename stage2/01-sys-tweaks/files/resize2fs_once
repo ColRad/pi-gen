@@ -17,6 +17,7 @@ case "$1" in
     bash /home/track8/dsi/WS_xinchDSI.sh 79 I2C0 &&
     update-rc.d resize2fs_once remove &&
     rm /etc/init.d/resize2fs_once &&
+    #raspi-config nonint enable_overlayfs &&
     log_end_msg $? && 
     reboot
     ;;
