@@ -9,7 +9,6 @@ libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
 dosfstools
 dphys-swapfile
 raspberrypi-sys-mods
-pi-bluetooth
 apt-listchanges
 usb-modeswitch
 libpam-chksshpwd
@@ -30,4 +29,6 @@ udisks2
 unzip zip p7zip-full
 file
 kms++-utils
-xserver-xorg xinit
+xserver-xorg xinit x11-xserver-utils
+unclutter udiskie
+jackd1

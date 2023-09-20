@@ -1,3 +1,7 @@
+[all]
+disable_poe_fan=1
+force_eeprom_read=0
+
 # expose nvme with usb gadget
 [gpio0=1]
 kernel=zImage
@@ -10,6 +14,7 @@ cmdline=cmdline-gadget.txt
 gpu_mem=16
 otg_mode=0
 
+[all]
 [gpio0=0]
 # Enable DRM VC4 V3D driver
 dtoverlay=vc4-kms-v3d
@@ -20,7 +25,7 @@ dtoverlay=vc4-kms-v3d
 dtparam=i2c_vc=on
 dtparam=i2c_arm=on
 dtoverlay=WS_xinchDSI_Screen,SCREEN_type=5,I2C_bus=10
-dtoverlay=WS_xinchDSI_Touch,I2C_bus=10,invertedx,invertedy
+dtoverlay=WS_xinchDSI_Touch,I2C_bus=10
 
 # Run in 64-bit mode
 arm_64bit=1
@@ -29,10 +34,9 @@ arm_64bit=1
 disable_overscan=1
 otg_mode=1
 
-disable_splash=1
-boot_delay=0
-initramfs initramfs.img
-disable_poe_fan=1
+#disable_splash=1
+#boot_delay=0
+#initramfs initramfs.img
 
 # Encoder
 dtoverlay=rotary-encoder,pin_a=7,pin_b=4,relative_axis=1

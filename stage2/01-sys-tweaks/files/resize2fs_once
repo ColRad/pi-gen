@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          resize2fs_once
 # Required-Start:
@@ -11,9 +11,10 @@
 . /lib/lsb/init-functions
 case "$1" in
   start)
-    log_daemon_msg "Starting resize2fs_once"
+    log_daemon_msg "Starting resize2fs_once and Install DSI Driver"
     ROOT_DEV=$(findmnt / -o source -n) &&
     resize2fs $ROOT_DEV &&
+    bash /home/track8/dsi/WS_xinchDSI.sh 79 I2C0 &&
     update-rc.d resize2fs_once remove &&
     rm /etc/init.d/resize2fs_once &&
     log_end_msg $?

@@ -10,6 +10,8 @@ install -m 644 files/50raspi		"${ROOTFS_DIR}/etc/apt/apt.conf.d/"
 install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
+install -m 755 files/autologin.conf		"${ROOTFS_DIR}/etc/systemd/system/getty@tty1.service.d/"
+
 
 if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	install -v -m 0700 -o 1000 -g 1000 -d "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh
@@ -19,10 +21,20 @@ if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 fi
 
 # Add the nvme Mountpoint
-install -d 777 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/media"
+mkdir "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/media"
+chmod -R 777 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/media"
 
 # Add Config Files
 cp -r ../../track8Home/. "${ROOTFS_DIR}/home/${FIRST_USER_NAME}"
+cp -r /home/parallels/op-8/static "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
+cp /home/parallels/op-8/target/release/track8 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
+cp /home/parallels/encoder-to-keyboard/target/release/encoder-to-keyboard "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
+chmod -R 777 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}"
+
+# Add DSI Driver
+mkdir "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/dsi"
+cp -r ../../track8Dsi/. "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/dsi"
+chmod -R 777 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/dsi"
 
 if [ "${PUBKEY_ONLY_SSH}" = "1" ]; then
 	sed -i -Ee 's/^#?[[:blank:]]*PubkeyAuthentication[[:blank:]]*no[[:blank:]]*$/PubkeyAuthentication yes/
