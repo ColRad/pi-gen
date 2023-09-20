@@ -27,9 +27,9 @@ chmod -R 777 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/media"
 
 # Add Config Files
 cp -r ../../track8Home/. "${ROOTFS_DIR}/home/${FIRST_USER_NAME}"
-cp -r /home/parallels/op-8/static "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
-cp /home/parallels/op-8/target/release/track8 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
-cp /home/parallels/encoder-to-keyboard/target/release/encoder-to-keyboard "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
+# cp -r /home/parallels/op-8/static "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
+# cp /home/parallels/op-8/target/release/track8 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
+# cp /home/parallels/encoder-to-keyboard/target/release/encoder-to-keyboard "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/"
 chmod -R 777 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}"
 
 # Add DSI Driver

@@ -32,3 +32,4 @@ xserver-xorg xinit x11-xserver-utils
 unclutter udiskie
 jackd1
 fbi
+initramfs-tools
