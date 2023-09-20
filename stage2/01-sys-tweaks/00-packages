@@ -31,3 +31,4 @@ kms++-utils
 xserver-xorg xinit x11-xserver-utils
 unclutter udiskie
 jackd1
+fbi

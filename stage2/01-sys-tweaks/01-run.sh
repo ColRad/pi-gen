@@ -11,6 +11,7 @@ install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 install -m 755 files/autologin.conf		"${ROOTFS_DIR}/etc/systemd/system/getty@tty1.service.d/"
+install -m 755 files/splashscreen.service		"${ROOTFS_DIR}/etc/systemd/system/"
 
 
 if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
@@ -51,6 +52,7 @@ else
 	systemctl disable ssh
 fi
 systemctl enable regenerate_ssh_host_keys
+systemctl enable splashscreen
 EOF
 
 if [ "${USE_QEMU}" = "1" ]; then
