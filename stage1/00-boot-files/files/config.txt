@@ -15,7 +15,7 @@ include config-nvme.txt
 
 [gpio1=1]
 include config-emmc.txt
-[all]]
+[all]
 
 
 [gpio0=0]
